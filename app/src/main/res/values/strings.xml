@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">SimpleChat</string>
+    <string name="applicationId">IT9CFEu9H3rj1FHLMckJVUfExqCKZ3k4CWzpCj6L</string>
+    <string name="clientKey">tWEHG16AVN7KpuePR9NCjf7lLTzItE7DUmFeaLvB</string>
+    <string name="server">https://parseapi.back4app.com</string>
 </resources>
