@@ -3,4 +3,6 @@
     <string name="applicationId">IT9CFEu9H3rj1FHLMckJVUfExqCKZ3k4CWzpCj6L</string>
     <string name="clientKey">tWEHG16AVN7KpuePR9NCjf7lLTzItE7DUmFeaLvB</string>
     <string name="server">https://parseapi.back4app.com</string>
+    <string name="send">Send</string>
+    <string name="message_hint">Type a message here</string>
 </resources>
