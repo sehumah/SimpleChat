@@ -30,7 +30,7 @@ class ChatActivity : AppCompatActivity() {
 
     // Get the userId from the cached currentUser object
     private fun startWithCurrentUser() {
-        // TODO: implement functionality
+        setUpMessagePosting()
     }
 
 
