@@ -7,8 +7,19 @@
     android:layout_height="match_parent"
     tools:context=".ChatActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/rl_send"
+        android:layout_below="@id/rl_send"
+        android:transcriptMode="alwaysScroll"/>
+
     <RelativeLayout
-        android:id="@+id/rlSend"
+        android:id="@+id/rl_send"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,11 +33,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
+            android:layout_marginEnd="5dp"
             android:contentDescription="@string/send"
             android:gravity="center"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:layout_marginEnd="5dp"
             android:src="@drawable/ic_baseline_send_24"
             android:textSize="18sp" />
 
@@ -35,13 +48,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/ib_send"
-            android:layout_toStartOf="@+id/ib_send"
             android:layout_marginStart="5dp"
+            android:layout_toStartOf="@+id/ib_send"
+            android:autofillHints=""
             android:gravity="top"
             android:hint="@string/message_hint"
             android:imeOptions="actionSend"
             android:inputType="textShortMessage"
-            android:autofillHints="" />
+            android:minHeight="48dp"
+            android:textColorHint="#757575" />
 
     </RelativeLayout>
 
