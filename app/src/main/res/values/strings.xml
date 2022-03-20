@@ -4,5 +4,5 @@
     <string name="clientKey">tWEHG16AVN7KpuePR9NCjf7lLTzItE7DUmFeaLvB</string>
     <string name="server">https://parseapi.back4app.com</string>
     <string name="send">Send</string>
-    <string name="message_hint">Type a message here</string>
+    <string name="message_hint">Type a message</string>
 </resources>
