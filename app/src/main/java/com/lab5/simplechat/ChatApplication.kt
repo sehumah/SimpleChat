@@ -26,7 +26,7 @@ class ChatApplication : Application () {
             Parse.Configuration.Builder(this)
                 .applicationId(R.string.applicationId.toString())
                 .clientKey(R.string.clientKey.toString())
-                .server(R.string.server.toString())
+                .server("https://parseapi.back4app.com")
                 .clientBuilder(builder)
                 .build()
         )
