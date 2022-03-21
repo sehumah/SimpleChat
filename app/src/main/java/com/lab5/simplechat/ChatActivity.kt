@@ -77,7 +77,7 @@ class ChatActivity : AppCompatActivity() {
 
     companion object {
         private const val TAG: String = "ChatActivity"
-        private val USER_ID_KEY = "userId"
-        private val BODY_KEY = "body"
+        private const val USER_ID_KEY = "userId"
+        private const val BODY_KEY = "body"
     }
 }
