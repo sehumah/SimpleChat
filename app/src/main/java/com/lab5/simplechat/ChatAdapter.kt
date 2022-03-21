@@ -17,7 +17,11 @@ import java.lang.IllegalArgumentException
  * It renders the message_incoming.xml or message_outgoing.xml in list by pre-filling appropriate information.
  */
 
-class ChatAdapter(private val context: Context, private val userId: String, private val messages: List<Message>) :
+class ChatAdapter(
+    private val context: Context,
+    private val userId: String,
+    private val messages: List<Message>
+    ):
     RecyclerView.Adapter<ChatAdapter.MessageViewHolder>() {
 
     // define the class as abstract meaning it can't have any instances
@@ -32,7 +36,7 @@ class ChatAdapter(private val context: Context, private val userId: String, priv
 
     /*   Create different view layouts to easily distinguish the messages in the chat   */
 
-    class IncomingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {  // incoming messages viewholder
+    class IncomingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {  // incoming messages view holder
         private var ivProfileOther: ImageView?
         private var tvBody: TextView?
         private var tvName: TextView?
@@ -50,7 +54,7 @@ class ChatAdapter(private val context: Context, private val userId: String, priv
     }
 
 
-    class OutgoingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {  // outgoing messages viewholder
+    class OutgoingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {  // outgoing messages view holder
         private var ivProfileMe: ImageView? = null
         private var tvBody: TextView? = null
 
