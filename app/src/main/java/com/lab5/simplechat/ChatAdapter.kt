@@ -1,6 +1,5 @@
 package com.lab5.simplechat
 
-import android.R
 import android.content.Context
 import android.text.Layout
 import android.view.LayoutInflater
@@ -19,7 +18,7 @@ import java.lang.IllegalArgumentException
  */
 
 class ChatAdapter(private val context: Context, private val userId: String, private val messages: List<Message>) :
-    RecyclerView.Adapter<ChatAdapter.MessageViewHolder> {
+    RecyclerView.Adapter<ChatAdapter.MessageViewHolder>() {
 
     // define the class as abstract meaning it can't have any instances
     abstract class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder (itemView) {
