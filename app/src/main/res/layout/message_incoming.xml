@@ -9,17 +9,17 @@
     android:clipToPadding="false">
 
     <TextView
-        android:id="@+id/tvName"
+        android:id="@+id/tv_name"
         android:layout_marginStart="15dp"
-        android:layout_toEndOf="@+id/ivProfileOther"
-        android:layout_alignTop="@+id/ivProfileOther"
+        android:layout_toEndOf="@+id/iv_profile_other"
+        android:layout_alignTop="@+id/iv_profile_other"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="4dp"
         android:text="John Doe" />
 
     <ImageView
-        android:id="@+id/ivProfileOther"
+        android:id="@+id/iv_profile_other"
         android:layout_alignParentStart="true"
         android:contentDescription="@string/profile_other"
         android:layout_width="64dp"
@@ -28,9 +28,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvBody"
-        android:layout_below="@+id/tvName"
-        android:layout_alignStart="@+id/tvName"
+        android:id="@+id/tv_body"
+        android:layout_below="@+id/tv_name"
+        android:layout_alignStart="@+id/tv_name"
         android:background="@drawable/message_incoming"
         android:paddingVertical="12dp"
         android:paddingHorizontal="16dp"
