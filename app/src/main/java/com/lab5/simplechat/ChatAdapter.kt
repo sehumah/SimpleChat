@@ -2,12 +2,15 @@ package com.lab5.simplechat
 
 import android.R
 import android.content.Context
+import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
+import java.lang.IllegalArgumentException
 
 
 /**
@@ -68,8 +71,21 @@ class ChatAdapter(private val context: Context, private val userId: String, priv
     private val MESSAGE_OUTGOING: Int = 123
     private val MESSAGE_INCOMING: Int = 321
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ??? {
-        TODO("Not yet implemented")
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
+        val context: Context = parent.context
+        val inflater: LayoutInflater = LayoutInflater.from(context)
+
+        if (viewType == MESSAGE_INCOMING) {
+            val contactView: View = inflater.inflate(R.layout.message_incoming, parent, false)
+            return IncomingMessageViewHolder(contactView)
+        }
+        else if (viewType == MESSAGE_OUTGOING) {
+            val contactView: View = inflater.inflate(R.layout.message_outgoing, parent, false)
+            return OutgoingMessageViewHolder(contactView)
+        }
+        else {
+            throw IllegalArgumentException("Unknown view type")
+        }
     }
 
     override fun onBindViewHolder(holder: ???, position: Int) {
