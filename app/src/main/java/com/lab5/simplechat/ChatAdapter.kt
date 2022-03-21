@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 
 class ChatAdapter(private val context: Context, private val userId: String, private val messages: List<Message>) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder> {
 
+    private val MESSAGE_OUTGOING: Int = 123
+    private val MESSAGE_INCOMING: Int = 321
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ??? {
         // TODO("Not yet implemented")
     }
@@ -21,5 +24,20 @@ class ChatAdapter(private val context: Context, private val userId: String, priv
 
     override fun getItemCount(): Int {
         return messages.size
+    }
+
+    // return view type (incoming or outgoing) based on the message position
+    override fun getItemViewType(position: Int): Int {
+        if (isMe(position)) {
+            return MESSAGE_OUTGOING
+        }
+        else {
+            return MESSAGE_INCOMING
+        }
+    }
+
+    private fun isMe(position: Int): Boolean {
+        val message = messages.get(position)
+        return message.getUserId() != null && message.getUserId().equals(userId)
     }
 }
