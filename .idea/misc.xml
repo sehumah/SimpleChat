@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/layout/activity_chat.xml" value="0.2722222222222222" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3411458333333333" />
+        <entry key="app/src/main/res/layout/message_incoming.xml" value="0.35625" />
       </map>
     </option>
   </component>
