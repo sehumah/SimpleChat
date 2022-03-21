@@ -1,15 +1,27 @@
 package com.lab5.simplechat
 
 import android.content.Context
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+
 
 /**
  * This is a custom list adapter class which provides data to RecyclerView.
  * It renders the message_incoming.xml or message_outgoing.xml in list by pre-filling appropriate information.
  */
 
-class ChatAdapter(private val context: Context, private val userId: String, private val messages: List<Message>) : RecyclerView.Adapter<ChatAdapter.MessageViewHolder> {
+class ChatAdapter(private val context: Context, private val userId: String, private val messages: List<Message>) :
+    RecyclerView.Adapter<ChatAdapter.MessageViewHolder> {
+
+    abstract class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder (itemView) {
+
+        fun MessageViewHolder(itemView: View) {
+            super.itemView
+        }
+
+        abstract fun bindMessage(message: Message): Void
+    }
 
     private val MESSAGE_OUTGOING: Int = 123
     private val MESSAGE_INCOMING: Int = 321
