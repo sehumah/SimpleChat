@@ -62,6 +62,11 @@ class ChatActivity : AppCompatActivity() {
                 // message.put(USER_ID_KEY, ParseUser.getCurrentUser().objectId)
                 // message.put(BODY_KEY, data)
 
+                // Using new `Message.kt` Parse-backed model now
+                val message = Message()
+                message.setUserId(ParseUser.getCurrentUser().objectId)
+                message.setBody(data)
+
                 message.saveInBackground(object : SaveCallback {
                     override fun done(e: ParseException?) {
                         if (e == null) {
