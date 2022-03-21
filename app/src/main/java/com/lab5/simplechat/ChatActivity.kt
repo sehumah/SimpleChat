@@ -56,9 +56,12 @@ class ChatActivity : AppCompatActivity() {
         ibSend!!.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
                 val data: String = etMessageCompose!!.getText().toString()
-                val message = ParseObject.create("Message")
-                message.put(USER_ID_KEY, ParseUser.getCurrentUser().objectId)
-                message.put(BODY_KEY, data)
+
+                /* below 3 lines not needed anymore */
+                // val message = ParseObject.create("Message")
+                // message.put(USER_ID_KEY, ParseUser.getCurrentUser().objectId)
+                // message.put(BODY_KEY, data)
+
                 message.saveInBackground(object : SaveCallback {
                     override fun done(e: ParseException?) {
                         if (e == null) {
