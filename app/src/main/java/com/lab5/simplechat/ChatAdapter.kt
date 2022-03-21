@@ -1,6 +1,8 @@
 package com.lab5.simplechat
 
+import android.R
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -26,8 +28,9 @@ class ChatAdapter(private val context: Context, private val userId: String, priv
         abstract fun bindMessage(message: Message): Void
     }
 
+    /*   Create different view layouts to easily distinguish the messages in the chat   */
 
-    class IncomingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {
+    class IncomingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {  // incoming messages viewholder
         private var ivProfileOther: ImageView?
         private var tvBody: TextView?
         private var tvName: TextView?
@@ -45,7 +48,7 @@ class ChatAdapter(private val context: Context, private val userId: String, priv
     }
 
 
-    class OutgoingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {
+    class OutgoingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {  // outgoing messages viewholder
         private var ivProfileMe: ImageView? = null
         private var tvBody: TextView? = null
 
@@ -60,6 +63,7 @@ class ChatAdapter(private val context: Context, private val userId: String, priv
         }
     }
 
+    /*   Now, assign correct view holders based on a view type   */
 
     private val MESSAGE_OUTGOING: Int = 123
     private val MESSAGE_INCOMING: Int = 321
