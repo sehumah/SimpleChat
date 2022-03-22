@@ -146,7 +146,7 @@ class ChatActivity : AppCompatActivity() {
     // onResume gets called when the Activity is ready to be resumed and about to be displayed to the user
     override fun onResume() {
         super.onResume()
-        handler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL)  // Only start checking for new messages when the app becomes active in foreground
+        // handler.postDelayed(mRefreshMessagesRunnable, POLL_INTERVAL)  // Only start checking for new messages when the app becomes active in foreground
     }
 
     // onPause gets called when a current Activity is about to go into background
