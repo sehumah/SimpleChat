@@ -11,6 +11,10 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.parse.*
+import com.parse.livequery.ParseLiveQueryClient
+import com.parse.livequery.SubscriptionHandling
+import java.net.URI
+import java.net.URISyntaxException
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
@@ -36,8 +40,43 @@ class ChatActivity : AppCompatActivity() {
         else { // If not logged in, login as a new anonymous user
             login()
         }
-    }
 
+        /* configure to listen for any newly created Message object */
+
+        // load existing messages to begin with
+        refreshMessages()
+
+        // Make sure the Parse server is setup to configured for live queries
+        // TODO("Enter the websocket URL of your Parse server")
+        val webSocketURL: String = "https://parseapi.back4app.com"  // "wss://PASTE_SERVER_WEBSOCKET_URL_HERE" TYPE IN A VALID WSS:// URL HERE
+        var parseLiveQueryClient: ParseLiveQueryClient? = null
+        try {
+            parseLiveQueryClient = ParseLiveQueryClient.Factory.getClient(URI(webSocketURL))
+        }
+        catch (e: URISyntaxException) {
+            e.printStackTrace()
+        }
+
+        val parseQuery: ParseQuery<Message> = ParseQuery.getQuery(Message::class.java)
+        // This query can even be more granular (i.e. only refresh if the entry was added by some other user)
+        // parseQuery.whereNotEqualTo(USER_ID_KEY, ParseUser.getCurrentUser().getObjectId());
+
+        // connect to Parse server
+        val subscriptionHandling: SubscriptionHandling<Message> = parseLiveQueryClient?.subscribe(parseQuery) as SubscriptionHandling<Message>
+
+        // listen for CREATE events on the Message class
+        subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE) { query: ParseQuery<Message>, `object`: Message ->
+            mMessages.add(0, `object`)
+
+            // RecyclerView updates need to be run on the UI thread
+            runOnUiThread(object: Runnable{
+                override fun run() {
+                    mAdapter.notifyDataSetChanged()
+                    rvChats.scrollToPosition(0)
+                }
+            })
+        }
+    }
 
     // Get the userId from the cached currentUser object
     private fun startWithCurrentUser() {
