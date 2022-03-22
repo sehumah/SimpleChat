@@ -124,8 +124,11 @@ class ChatAdapter(
         }
     }
 
-    override fun onBindViewHolder(holder: ???, position: Int) {
-        TODO("Not yet implemented")
+
+    // tell ChatAdapter how and when to bind different message types to different view types
+    override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
+        val message: Message = mMessages.get(position)
+        holder.bindMessage(message)
     }
 
     override fun getItemCount(): Int {
