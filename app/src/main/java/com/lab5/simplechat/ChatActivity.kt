@@ -96,7 +96,7 @@ class ChatActivity : AppCompatActivity() {
 
     // Query messages from Parse so we can load them into the chat adapter
     fun refreshMessages() {
-
+        TODO("implement later")
     }
 
 
