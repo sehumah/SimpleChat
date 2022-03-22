@@ -84,17 +84,19 @@ class ChatActivity : AppCompatActivity() {
 
                 message.saveInBackground(object : SaveCallback {
                     override fun done(e: ParseException?) {
-                        if (e == null) {
-                            Toast.makeText(this@ChatActivity, "Successfully created message on Parse!", Toast.LENGTH_SHORT).show()
-                        }
-                        else {
-                            Log.e(TAG, "Failed to save message.", e)
-                        }
+                        Toast.makeText(this@ChatActivity, "Successfully created message on Parse!", Toast.LENGTH_SHORT).show()
+                        refreshMessages()
+                        // if (e == null) {  } else { Log.e(TAG, "Failed to save message.", e) }
                     }
                 })
-                etMessageCompose!!.setText(null)
+                etMessageCompose.setText(null)
             }
         })
+    }
+
+    // Query messages from Parse so we can load them into the chat adapter
+    fun refreshMessages() {
+
     }
 
 
