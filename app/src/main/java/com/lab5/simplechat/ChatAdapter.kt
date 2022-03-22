@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import java.lang.IllegalArgumentException
 
 
@@ -18,11 +19,15 @@ import java.lang.IllegalArgumentException
  */
 
 class ChatAdapter(
-    private val context: Context,
+    context: Context,
     private val userId: String,
     private val messages: List<Message>
     ):
     RecyclerView.Adapter<ChatAdapter.MessageViewHolder>() {
+
+    val mContext: Context = context
+    val mUserId: String = userId
+    val mMessages: List<Message> = messages
 
     // define the class as abstract meaning it can't have any instances
     abstract class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder (itemView) {
@@ -31,12 +36,12 @@ class ChatAdapter(
             super.itemView
         }
 
-        abstract fun bindMessage(message: Message): Void
+        abstract fun bindMessage(message: Message)
     }
 
     /*   Create different view layouts to easily distinguish the messages in the chat   */
 
-    class IncomingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {  // incoming messages view holder
+    inner class IncomingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {  // incoming messages view holder
         private var ivProfileOther: ImageView?
         private var tvBody: TextView?
         private var tvName: TextView?
@@ -48,13 +53,18 @@ class ChatAdapter(
             tvName = itemView.findViewById(R.id.tv_name)
         }
 
-        override fun bindMessage(message: Message): Void {
-            TODO("implement later")
+        override fun bindMessage(message: Message) {
+            Glide.with(mContext)
+                .load(getProfileURL(message.getUserId()))
+                .circleCrop()  // create an effect of a round profile picture
+                .into(ivProfileOther)
+            tvBody?.text = message.getBody()
+            tvName?.text = message.getUserId()  // in addition to message, show userId
         }
     }
 
 
-    class OutgoingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {  // outgoing messages view holder
+    inner class OutgoingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {  // outgoing messages view holder
         private var ivProfileMe: ImageView? = null
         private var tvBody: TextView? = null
 
@@ -64,10 +74,16 @@ class ChatAdapter(
             tvBody = itemView.findViewById(R.id.tv_body)
         }
 
-        override fun bindMessage(message: Message): Void {
-            TODO("implement later")
+        override fun bindMessage(message: Message) {
+            Glide.with(mContext)
+                .load(getProfileURL(message.getUserId()))
+                .circleCrop()  // create an effect of a round profile picture
+                .into(ivProfileMe)
+            tvBody?.text = message.getBody()
         }
     }
+
+
 
     /*   Now, assign correct view holders based on a view type   */
 
