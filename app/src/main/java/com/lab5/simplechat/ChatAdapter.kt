@@ -26,9 +26,9 @@ class ChatAdapter(
     ):
     RecyclerView.Adapter<ChatAdapter.MessageViewHolder>() {
 
-    val mContext: Context = context
-    val mUserId: String = userId
-    val mMessages: List<Message> = messages
+    private val mContext: Context = context
+    private val mUserId: String = userId
+    private val mMessages: List<Message> = messages
 
     // Create a gravatar image based on the hash value obtained from userId
     fun getProfileURL(userId: String): String {  // responsible for decoding user ID and creating an image URL that can be passed into the Glide library
