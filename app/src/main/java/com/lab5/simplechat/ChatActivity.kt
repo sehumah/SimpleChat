@@ -69,6 +69,7 @@ class ChatActivity : AppCompatActivity() {
 
         // associate the layout manager with the recycler view
         val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
+        linearLayoutManager.reverseLayout = true
         rvChats.layoutManager = linearLayoutManager
 
         // When send button is clicked, create message object on Parse
