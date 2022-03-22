@@ -14,10 +14,14 @@ import kotlin.properties.Delegates
 
 class ChatActivity : AppCompatActivity() {
 
+    private val MAX_CHAT_MESSAGES_TO_SHOW: Int = 50
+
     private lateinit var etMessageCompose: EditText
     private lateinit var ibSend: ImageButton
     private lateinit var rvChats: RecyclerView
-    private lateinit var mMessages: List<Message>
+    private lateinit var mMessages: MutableList<Message>
+    private var mFirstLoad = false
+    private lateinit var mAdapter: ChatAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,9 +62,9 @@ class ChatActivity : AppCompatActivity() {
         ibSend = findViewById<View>(R.id.ib_send) as ImageButton
         rvChats = findViewById(R.id.rv_chats)
         // val mMessages = List()
-        var mFirstLoad = true
+        mFirstLoad = true
         val userId: String = ParseUser.getCurrentUser().objectId
-        val mAdapter = ChatAdapter(this, userId, mMessages)
+        mAdapter = ChatAdapter(this, userId, mMessages)
         rvChats.adapter = mAdapter
 
         // associate the layout manager with the recycler view
@@ -96,7 +100,34 @@ class ChatActivity : AppCompatActivity() {
 
     // Query messages from Parse so we can load them into the chat adapter
     fun refreshMessages() {
-        TODO("implement later")
+        // construct query to execute
+        val query: ParseQuery<Message> = ParseQuery.getQuery(Message::class.java)
+
+        // configure limit and sort order
+        query.limit = MAX_CHAT_MESSAGES_TO_SHOW
+
+        // get the latest 50 messages, order will show up newest to oldest of this group
+        query.orderByDescending("createdAt")
+
+        // Execute query to fetch all messages from Parse asynchronously (This is equivalent to a SELECT query with SQL)
+        query.findInBackground(object : FindCallback<Message> {
+            override fun done(messages: List<Message>, e: ParseException) {
+                if (e == null) {
+                    mMessages.clear()
+                    mMessages.addAll(messages)
+                    mAdapter.notifyDataSetChanged()  // update adapter
+
+                    // scroll to the bottom of the list on initial load
+                    if (mFirstLoad) {
+                        rvChats.scrollToPosition(0)
+                        mFirstLoad = false
+                    }
+                }
+                else {
+                    Log.e(TAG, "Error loading messages: $e")
+                }
+            }
+        })
     }
 
 
