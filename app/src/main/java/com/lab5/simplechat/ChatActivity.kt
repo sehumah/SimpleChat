@@ -7,12 +7,17 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.parse.*
+import kotlin.properties.Delegates
 
 class ChatActivity : AppCompatActivity() {
 
-    private var etMessageCompose: EditText? = null
-    private var ibSend: ImageButton? = null
+    private lateinit var etMessageCompose: EditText
+    private lateinit var ibSend: ImageButton
+    private lateinit var rvChats: RecyclerView
+    private lateinit var mMessages: List<Message>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,11 +56,21 @@ class ChatActivity : AppCompatActivity() {
         // reference the text field and button
         etMessageCompose = findViewById<View>(R.id.et_message_compose) as EditText
         ibSend = findViewById<View>(R.id.ib_send) as ImageButton
+        rvChats = findViewById(R.id.rv_chats)
+        // val mMessages = List()
+        var mFirstLoad = true
+        val userId: String = ParseUser.getCurrentUser().objectId
+        val mAdapter = ChatAdapter(this, userId, mMessages)
+        rvChats.adapter = mAdapter
+
+        // associate the layout manager with the recycler view
+        val linearLayoutManager: LinearLayoutManager = LinearLayoutManager(this)
+        rvChats.layoutManager = linearLayoutManager
 
         // When send button is clicked, create message object on Parse
-        ibSend!!.setOnClickListener(object : View.OnClickListener {
+        ibSend.setOnClickListener(object : View.OnClickListener {
             override fun onClick(view: View?) {
-                val data: String = etMessageCompose!!.getText().toString()
+                val data: String = etMessageCompose.getText().toString()
 
                 /* below 3 lines not needed anymore */
                 // val message = ParseObject.create("Message")
