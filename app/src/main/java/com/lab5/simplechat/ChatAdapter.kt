@@ -10,7 +10,10 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import java.lang.Exception
 import java.lang.IllegalArgumentException
+import java.math.BigInteger
+import java.security.MessageDigest
 
 
 /**
@@ -29,6 +32,20 @@ class ChatAdapter(
     val mUserId: String = userId
     val mMessages: List<Message> = messages
 
+    // Create a gravatar image based on the hash value obtained from userId
+    fun getProfileURL(userId: String): String {  // responsible for decoding user ID and creating an image URL that can be passed into the Glide library
+        var hex: String = ""
+        try {
+            val digest: MessageDigest = MessageDigest.getInstance("MD5")
+            val hash: ByteArray = digest.digest(userId.toByteArray())
+            val bigInt: BigInteger = BigInteger(hash)
+            hex = bigInt.abs().toString(16)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return "https://www.gravatar.com/avatar/$hex?d=identicon"
+    }
+
     // define the class as abstract meaning it can't have any instances
     abstract class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder (itemView) {
 
@@ -42,9 +59,9 @@ class ChatAdapter(
     /*   Create different view layouts to easily distinguish the messages in the chat   */
 
     inner class IncomingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {  // incoming messages view holder
-        private var ivProfileOther: ImageView?
-        private var tvBody: TextView?
-        private var tvName: TextView?
+        private var ivProfileOther: ImageView
+        private var tvBody: TextView
+        private var tvName: TextView
 
         init {
             super.itemView
@@ -55,18 +72,18 @@ class ChatAdapter(
 
         override fun bindMessage(message: Message) {
             Glide.with(mContext)
-                .load(getProfileURL(message.getUserId()))
+                .load(message.getUserId()?.let { getProfileURL(it) })
                 .circleCrop()  // create an effect of a round profile picture
                 .into(ivProfileOther)
-            tvBody?.text = message.getBody()
-            tvName?.text = message.getUserId()  // in addition to message, show userId
+            tvBody.text = message.getBody()
+            tvName.text = message.getUserId()  // in addition to message, show userId
         }
     }
 
 
     inner class OutgoingMessageViewHolder(itemView: View) : MessageViewHolder(itemView) {  // outgoing messages view holder
-        private var ivProfileMe: ImageView? = null
-        private var tvBody: TextView? = null
+        private var ivProfileMe: ImageView
+        private var tvBody: TextView
 
         init {
             super.itemView
@@ -76,10 +93,10 @@ class ChatAdapter(
 
         override fun bindMessage(message: Message) {
             Glide.with(mContext)
-                .load(getProfileURL(message.getUserId()))
+                .load(message.getUserId()?.let { getProfileURL(it) })
                 .circleCrop()  // create an effect of a round profile picture
                 .into(ivProfileMe)
-            tvBody?.text = message.getBody()
+            tvBody.text = message.getBody()
         }
     }
 
