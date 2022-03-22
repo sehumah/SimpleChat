@@ -2,6 +2,7 @@ package com.lab5.simplechat
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -10,6 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.parse.*
+import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 class ChatActivity : AppCompatActivity() {
@@ -129,6 +131,16 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
         })
+    }
+
+    // create a handler which can run code periodically
+    private val POLL_INTERVAL: Long = TimeUnit.SECONDS.toMillis(3)
+    val handler: Handler = android.os.Handler()
+    val mRefreshMessagesRunnable: Runnable = object : Runnable {
+        override fun run() {
+            refreshMessages()
+            handler.postDelayed(this, POLL_INTERVAL)
+        }
     }
 
 
