@@ -25,7 +25,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var etMessageCompose: EditText
     private lateinit var ibSend: ImageButton
     private lateinit var rvChats: RecyclerView
-    private lateinit var mMessages: MutableList<Message>
+    private lateinit var mMessages: MutableList<Message>  // TODO: initialize before using
     private var mFirstLoad = false
     private lateinit var mAdapter: ChatAdapter
 
@@ -76,6 +76,12 @@ class ChatActivity : AppCompatActivity() {
                 }
             })
         }
+
+        /* insert everything here */
+
+
+
+        /* end of insertion */
     }
 
     // Get the userId from the cached currentUser object
@@ -102,7 +108,7 @@ class ChatActivity : AppCompatActivity() {
         etMessageCompose = findViewById<View>(R.id.et_message_compose) as EditText
         ibSend = findViewById<View>(R.id.ib_send) as ImageButton
         rvChats = findViewById(R.id.rv_chats)
-        // val mMessages = List()
+        // val mMessages = MutableList<Message>(0)
         mFirstLoad = true
         val userId: String = ParseUser.getCurrentUser().objectId
         mAdapter = ChatAdapter(this, userId, mMessages)
