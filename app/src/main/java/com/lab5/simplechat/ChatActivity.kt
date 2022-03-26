@@ -25,7 +25,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var etMessageCompose: EditText
     private lateinit var ibSend: ImageButton
     private lateinit var rvChats: RecyclerView
-    private lateinit var mMessages: ArrayList<Message>  // TODO: initialize before using
+    private lateinit var mMessages: ArrayList<Message>
     private var mFirstLoad = false
     private lateinit var mAdapter: ChatAdapter
 
@@ -49,7 +49,6 @@ class ChatActivity : AppCompatActivity() {
         refreshMessages()
 
         // Make sure the Parse server is setup to configured for live queries
-        // TODO("Enter the websocket URL of your Parse server")
         val webSocketURL: String = "https://parseapi.back4app.com"  // "wss://PASTE_SERVER_WEBSOCKET_URL_HERE" TYPE IN A VALID WSS:// URL HERE
         var parseLiveQueryClient: ParseLiveQueryClient? = null
         try {
