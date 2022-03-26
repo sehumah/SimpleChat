@@ -25,13 +25,15 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var etMessageCompose: EditText
     private lateinit var ibSend: ImageButton
     private lateinit var rvChats: RecyclerView
-    private lateinit var mMessages: MutableList<Message>  // TODO: initialize before using
+    private lateinit var mMessages: ArrayList<Message>  // TODO: initialize before using
     private var mFirstLoad = false
     private lateinit var mAdapter: ChatAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+
+
 
         // User login
         if (ParseUser.getCurrentUser() != null) { // start with existing user
@@ -66,6 +68,7 @@ class ChatActivity : AppCompatActivity() {
 
         // listen for CREATE events on the Message class
         subscriptionHandling.handleEvent(SubscriptionHandling.Event.CREATE) { query: ParseQuery<Message>, `object`: Message ->
+
             mMessages.add(0, `object`)
 
             // RecyclerView updates need to be run on the UI thread
@@ -108,7 +111,7 @@ class ChatActivity : AppCompatActivity() {
         etMessageCompose = findViewById<View>(R.id.et_message_compose) as EditText
         ibSend = findViewById<View>(R.id.ib_send) as ImageButton
         rvChats = findViewById(R.id.rv_chats)
-        // val mMessages = MutableList<Message>(0)
+        mMessages = ArrayList()
         mFirstLoad = true
         val userId: String = ParseUser.getCurrentUser().objectId
         mAdapter = ChatAdapter(this, userId, mMessages)
@@ -158,24 +161,22 @@ class ChatActivity : AppCompatActivity() {
         query.orderByDescending("createdAt")
 
         // Execute query to fetch all messages from Parse asynchronously (This is equivalent to a SELECT query with SQL)
-        query.findInBackground(object : FindCallback<Message> {
-            override fun done(messages: List<Message>, e: ParseException) {
-                if (e == null) {
-                    mMessages.clear()
-                    mMessages.addAll(messages)
-                    mAdapter.notifyDataSetChanged()  // update adapter
+        query.findInBackground { messages, e ->
+            if (e == null) {
+                mMessages.clear()
+                mMessages.addAll(messages)
+                mAdapter.notifyDataSetChanged()  // update adapter
 
-                    // scroll to the bottom of the list on initial load
-                    if (mFirstLoad) {
-                        rvChats.scrollToPosition(0)
-                        mFirstLoad = false
-                    }
-                }
-                else {
-                    Log.e(TAG, "Error loading messages: $e")
+                // scroll to the bottom of the list on initial load
+                if (mFirstLoad) {
+                    rvChats.scrollToPosition(0)
+                    mFirstLoad = false
                 }
             }
-        })
+            else {
+                Log.e(TAG, "Error loading messages: $e")
+            }
+        }
     }
 
     // create a handler which can run code periodically
