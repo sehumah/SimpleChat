@@ -131,19 +131,24 @@ class ChatActivity : AppCompatActivity() {
                 // message.put(USER_ID_KEY, ParseUser.getCurrentUser().objectId)
                 // message.put(BODY_KEY, data)
 
-                // Using new `Message.kt` Parse-backed model now
-                val message = Message()
-                message.setUserId(ParseUser.getCurrentUser().objectId)
-                message.setBody(data)
+                if (data.isNotEmpty()) {
+                    // Using new `Message.kt` Parse-backed model now
+                    val message = Message()
+                    message.setUserId(ParseUser.getCurrentUser().objectId)
+                    message.setBody(data)
 
-                message.saveInBackground(object : SaveCallback {
-                    override fun done(e: ParseException?) {
-                        Toast.makeText(this@ChatActivity, "Successfully created message on Parse!", Toast.LENGTH_SHORT).show()
-                        refreshMessages()
-                        // if (e == null) {  } else { Log.e(TAG, "Failed to save message.", e) }
-                    }
-                })
-                etMessageCompose.setText(null)
+                    message.saveInBackground(object : SaveCallback {
+                        override fun done(e: ParseException?) {
+                            Toast.makeText(this@ChatActivity, "Successfully created message on Parse!", Toast.LENGTH_SHORT).show()
+                            refreshMessages()
+                            // if (e == null) {  } else { Log.e(TAG, "Failed to save message.", e) }
+                        }
+                    })
+                    etMessageCompose.setText(null)
+                }
+                else {
+                    Toast.makeText(this@ChatActivity, "Empty body. Type a message!", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }
